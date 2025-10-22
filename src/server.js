@@ -2,13 +2,15 @@ const { timeStamp } = require('console');
 const express = require('express');
 const http = require('http');
 const { send } = require('process');
-const logger = require('./utils/logger')
+const logger = require('./utils/logger');
+const users = require('./data/users.json');
+
 
 const app = express();
 
 app.use(express.json());
 
-app.use(logger());
+app.use(logger);
 
 app.get('/', (req, res) => {
     res.send('welcome to my API');
@@ -25,6 +27,10 @@ app.get('/time', (req, res) => {
         time: currentTime.toISOString(),
     });
 })
+
+app.get('/users', (req, res) => {
+    res.json(users);
+});
 
 app.use((req, res) => {
     res.status(404).send('ruta no encontrada');
